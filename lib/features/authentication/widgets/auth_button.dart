@@ -2,27 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constants/sizes.dart';
-import '../username_screen.dart';
 
 class AuthButton extends StatelessWidget {
   final String text;
   final FaIcon icon;
-  const AuthButton({super.key, required this.text, required this.icon});
-
-  void _onButtonTap(BuildContext context) {
-    if (text == "Use email & password") {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const UsernameScreen(),
-        ),
-      );
-    }
-  }
+  final Function(BuildContext)? onButtonTap;
+  const AuthButton({
+    super.key,
+    required this.text,
+    required this.icon,
+    this.onButtonTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _onButtonTap(context),
+      onTap: () {
+        if (onButtonTap != null) {
+          onButtonTap!(context);
+        }
+      },
       child: FractionallySizedBox(
         widthFactor: 1,
         child: Container(
