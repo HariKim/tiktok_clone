@@ -7,7 +7,13 @@ import 'package:tiktok_clone/features/users/widgets/persistent_tab_bar.dart';
 import 'package:tiktok_clone/utils.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({super.key});
+  final String username, tab;
+
+  const UserProfileScreen({
+    super.key,
+    required this.username,
+    required this.tab,
+  });
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -29,6 +35,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: SafeArea(
         child: DefaultTabController(
+          initialIndex: widget.tab == "likes" ? 1 : 0,
           length: 2,
           child: NestedScrollView(
             physics: const BouncingScrollPhysics(),
@@ -37,7 +44,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 SliverAppBar(
                   // backgroundColor: isDark ? Colors.black : null,
                   centerTitle: true,
-                  title: const Text('Haribo'),
+                  title: Text(widget.username),
                   actions: [
                     IconButton(
                       onPressed: _onGearPressed,
@@ -60,16 +67,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       Gaps.v16,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Text(
-                            '@Haribo',
-                            style: TextStyle(
+                            '@${widget.username}',
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: Sizes.size18,
                             ),
                           ),
                           Gaps.h5,
-                          FaIcon(
+                          const FaIcon(
                             FontAwesomeIcons.solidCircleCheck,
                             size: Sizes.size16,
                             color: Color.fromARGB(255, 115, 197, 230),
