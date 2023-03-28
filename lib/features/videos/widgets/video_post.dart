@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/video_config/video_config.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
@@ -27,6 +29,7 @@ class _VideoPostState extends State<VideoPost>
   final Duration _animationDuration = const Duration(milliseconds: 100);
   bool _isPaused = false;
   bool _isFullText = false;
+  // bool _autoMute = videoConfig.value;
   final String text = "This is park near my home!";
 
   void _onVideoChange() {
@@ -59,6 +62,12 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
+
+    // videoConfig.addListener(() {
+    //   setState(() {
+    //     _autoMute = videoConfig.value;
+    //   });
+    // });
   }
 
   @override
@@ -151,6 +160,24 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            left: 15,
+            top: 20,
+            child: IconButton(
+              icon: context.watch<VideoConfig>().isMuted
+                  ? const FaIcon(
+                      FontAwesomeIcons.volumeOff,
+                      color: Colors.white,
+                    )
+                  : const FaIcon(
+                      FontAwesomeIcons.volumeHigh,
+                      color: Colors.white,
+                    ),
+              onPressed: () {
+                context.read<VideoConfig>().toggleIsMuted();
+              },
             ),
           ),
           Positioned(
